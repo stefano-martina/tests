@@ -1,0 +1,6 @@
+cmake_minimum_required(VERSION 2.8)
+project( ImageRecognition )
+find_package( OpenCV REQUIRED )
+add_executable( ImageRecognition ImageRecognition.cpp )
+target_link_libraries( ImageRecognition ${OpenCV_LIBS} )
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")

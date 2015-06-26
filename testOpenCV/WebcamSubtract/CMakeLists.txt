@@ -1,0 +1,5 @@
+cmake_minimum_required(VERSION 2.8)
+project( WebcamSubtract )
+find_package( OpenCV REQUIRED )
+add_executable( WebcamSubtract WebcamSubtract.cpp )
+target_link_libraries( WebcamSubtract ${OpenCV_LIBS} )
