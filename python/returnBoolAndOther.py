@@ -14,3 +14,8 @@ r2,v2 = f2()
 print(r2)
 print(v2)
 
+if f1()[0]:
+    print('uno')
+
+if f2()[0]:
+    print('due')
