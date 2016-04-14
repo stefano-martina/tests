@@ -9,12 +9,22 @@ points.InsertNextPoint(0, 1, 0)
 points.InsertNextPoint(1, 0, 0)
 points.InsertNextPoint(0, 0, 1)
 
-unstructuredGrid = vtk.vtkUnstructuredGrid()
-unstructuredGrid.SetPoints(points)
-unstructuredGrid.InsertNextCell(vtk.VTK_TETRA, 4, [0,1,2,3])
+cellArray = vtk.vtkCellArray()
+cellArray.InsertNextCell(4)
+for i in range(4):
+    cellArray.InsertCellPoint(i)
+    
+polyData = vtk.vtkPolyData()
+polyData.SetPoints(points)
+polyData.SetLines(cellArray)
 
-mapper = vtk.vtkDataSetMapper()
-mapper.SetInputData(unstructuredGrid)
+profileTubes = vtk.vtkTubeFilter()
+profileTubes.SetNumberOfSides(8)
+profileTubes.SetInputData(polyData)
+profileTubes.SetRadius(.005)
+
+mapper = vtk.vtkPolyDataMapper()
+mapper.SetInputConnection(profileTubes.GetOutputPort())
 
 actor = vtk.vtkActor()
 actor.SetMapper(mapper)
@@ -47,19 +57,10 @@ widget.SetViewport(0.0, 0.0, 0.1, 0.1)
 widget.SetEnabled(True)
 widget.InteractiveOn()
 
-
 renderer.ResetCamera()
-#interactorStyle.SetWorldUpVector((0.0,1.0,0.0))
-#interactorStyle.SetWorldUpVector(renderer.GetActiveCamera().GetViewUp())
-print(renderer.GetActiveCamera().GetViewUp())
-print(renderer.GetActiveCamera().GetViewShear())
-print(renderer.GetActiveCamera().GetPosition())
-print(renderer.GetActiveCamera().GetFocalPoint())
 camPos = renderer.GetActiveCamera().GetPosition()
 renderer.GetActiveCamera().SetPosition((camPos[2],camPos[1],camPos[0]))
 renderer.GetActiveCamera().SetViewUp((0.0,0.0,1.0))
-#renderer.GetActiveCamera().SetViewShear((1.0,0.0,0.0))
-#renderer.GetActiveCamera().Zoom(1.5)
 
 renderWindow.Render()
 renderWindowInteractor.Start()
