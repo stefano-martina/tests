@@ -11,33 +11,37 @@ chart = vtk.vtkChartXY()
 view.GetScene().AddItem(chart)
 chart.SetShowLegend(True)
  
-table = vtk.vtkTable()
- 
 arrX = vtk.vtkFloatArray()
 arrX.SetName("X Axis")
-table.AddColumn(arrX)
  
 arrC = vtk.vtkFloatArray()
 arrC.SetName("Cosine")
-table.AddColumn(arrC)
  
 arrS = vtk.vtkFloatArray()
 arrS.SetName("Sine")
-table.AddColumn(arrS)
  
 arrT = vtk.vtkFloatArray()
 arrT.SetName("Sine - Cosine")
-table.AddColumn(arrT)
  
 numPoints = 40
 inc = 7.5 / (numPoints-1)
-table.SetNumberOfRows(numPoints)
+#table.SetNumberOfRows(numPoints)
 for i in range(numPoints):
-    table.SetValue(i, 0, i * inc)
-    table.SetValue(i, 1, math.cos(i * inc) + 0.0)
-    table.SetValue(i, 2, math.sin(i * inc) + 0.0)
-    table.SetValue(i, 3, math.sin(i * inc) - math.cos(i * inc))
- 
+    #table.SetValue(i, 0, i * inc)
+    #table.SetValue(i, 1, math.cos(i * inc) + 0.0)
+    #table.SetValue(i, 2, math.sin(i * inc) + 0.0)
+    #table.SetValue(i, 3, math.sin(i * inc) - math.cos(i * inc))
+    arrX.InsertNextValue(i * inc)
+    arrC.InsertNextValue(math.cos(i * inc) + 0.0)
+    arrS.InsertNextValue(math.sin(i * inc) + 0.0)
+    arrT.InsertNextValue(math.sin(i * inc) - math.cos(i * inc))
+
+table = vtk.vtkTable()
+table.AddColumn(arrX)
+table.AddColumn(arrC)
+table.AddColumn(arrS)
+table.AddColumn(arrT)
+
 points = chart.AddPlot(vtk.vtkChart.POINTS)
 points.SetInputData(table, 0, 1)
 points.SetColor(0, 0, 0, 255)
