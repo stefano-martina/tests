@@ -12,7 +12,6 @@ print('Test inside -> ', end='')
 allPoints = points.copy()
 allPoints.append(testInside)
 chull = sp.spatial.ConvexHull(np.array(allPoints))
-chullNodes = []
 outside = False
 for simplex in chull.simplices:
         if (testInside == chull.points[simplex[0]]).all() or (testInside == chull.points[simplex[1]]).all() or (testInside == chull.points[simplex[2]]).all():
@@ -29,7 +28,6 @@ print('Test outside -> ', end='')
 allPoints = points.copy()
 allPoints.append(testOutside)
 chull = sp.spatial.ConvexHull(np.array(allPoints))
-chullNodes = []
 outside = False
 for simplex in chull.simplices:
         if (testOutside == chull.points[simplex[0]]).all() or (testOutside == chull.points[simplex[1]]).all() or (testOutside == chull.points[simplex[2]]).all():
